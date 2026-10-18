@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+out/
+*.log
+.DS_Store
+.vscode/
+.idea/
+*.tgz
+tests/e2e/artifacts/
+packaging/arch/*.pkg.tar.*

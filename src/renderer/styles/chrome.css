@@ -1,0 +1,352 @@
+/* ---- window frame ---------------------------------------------------------------------- */
+.window {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--bg) calc(var(--win-alpha) * 100%), transparent);
+}
+[data-platform='linux'] .window {
+  border: 1px solid var(--border);
+}
+[data-rounded='1'] .window {
+  border-radius: var(--radius-window);
+}
+[data-platform='linux'][data-focused='0'] .window {
+  border-color: color-mix(in srgb, var(--border) 60%, transparent);
+}
+
+/* ---- title bar ------------------------------------------------------------------------- */
+.titlebar {
+  position: relative;
+  z-index: 10;
+  flex: none;
+  height: var(--titlebar-h);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  background: color-mix(in srgb, var(--fg) 3%, transparent);
+  border-bottom: 1px solid var(--hairline);
+  -webkit-app-region: drag;
+}
+.titlebar.mac-inset {
+  padding-left: 82px;
+}
+.titlebar-spacer {
+  flex: 1 1 24px;
+  min-width: 24px;
+  align-self: stretch;
+}
+.win-overlay-gap {
+  flex: none;
+  width: 140px;
+}
+[data-focused='0'] .titlebar {
+  opacity: 0.86;
+}
+
+.icon-btn {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.icon-btn:hover {
+  background: var(--hover);
+  color: var(--fg);
+}
+.icon-btn:active {
+  background: var(--press);
+}
+.icon-btn.on {
+  color: var(--fg);
+  background: var(--hover);
+}
+.icon-btn.small {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+}
+
+/* ---- tabs ------------------------------------------------------------------------------ */
+.tabbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  flex: 0 1 auto;
+}
+.tab-list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  padding: 2px;
+  margin: -2px;
+}
+.tab-list::-webkit-scrollbar {
+  display: none;
+}
+.tab {
+  position: relative;
+  /* A definite width keeps the strip's intrinsic size predictable; tabs only shrink once the strip overflows. */
+  width: 188px;
+  flex: 0 1 188px;
+  min-width: 104px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px 0 12px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  font-size: 12.5px;
+  white-space: nowrap;
+  -webkit-app-region: no-drag;
+  transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur) var(--ease), box-shadow var(--dur-fast);
+  animation: tab-in var(--dur) var(--ease);
+}
+.tab:hover {
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+  color: var(--fg);
+}
+.tab.active {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 7%, transparent);
+}
+.tab.dragging {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 0 0 1px color-mix(in srgb, var(--fg) 12%, transparent);
+  background: color-mix(in srgb, var(--fg) 14%, var(--bg));
+  cursor: grabbing;
+}
+.tab.exited .tab-title {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--fg) 35%, transparent);
+}
+.tab-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab-badge {
+  flex: none;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--fg) 9%, transparent);
+}
+.tab-close {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--muted);
+  opacity: 0;
+  transition: opacity var(--dur-fast), background var(--dur-fast);
+}
+.tab:hover .tab-close,
+.tab.active .tab-close,
+.session-row:hover .tab-close {
+  opacity: 0.85;
+}
+.tab-close:hover {
+  background: var(--press);
+  color: var(--fg);
+  opacity: 1;
+}
+.tab-rename {
+  flex: 1;
+  min-width: 0;
+  height: 22px;
+  padding: 0 6px;
+  margin-left: -6px;
+  border: 1px solid var(--focus-ring);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  font-size: 12.5px;
+}
+.new-tab {
+  margin-left: 2px;
+}
+
+/* ---- window controls (Linux) ----------------------------------------------------------- */
+.window-controls {
+  display: flex;
+  gap: 2px;
+  margin-left: 4px;
+}
+.wc {
+  width: 32px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.wc:hover {
+  background: var(--hover);
+  color: var(--fg);
+}
+.wc-close:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+/* ---- body, sidebar, status bar ---------------------------------------------------------- */
+.body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+.workspace {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.sidebar {
+  flex: none;
+  width: 0;
+  overflow: hidden;
+  transition: width var(--dur) var(--ease);
+}
+.sidebar[data-open='true'] {
+  width: 232px;
+}
+.sidebar-inner {
+  width: 232px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--hairline);
+  background: color-mix(in srgb, var(--fg) 2.5%, transparent);
+  opacity: 0;
+  transition: opacity var(--dur-fast);
+}
+.sidebar[data-open='true'] .sidebar-inner {
+  opacity: 1;
+  transition-delay: 60ms;
+}
+.sidebar-head {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 10px 6px 14px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.session-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.session-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 6px 7px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.session-row:hover {
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+  color: var(--fg);
+}
+.session-row.active {
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+  color: var(--fg);
+}
+.session-text {
+  flex: 1;
+  min-width: 0;
+}
+.session-title,
+.session-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.session-title {
+  font-size: 12.5px;
+}
+.session-sub {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.85;
+}
+.sidebar-foot {
+  flex: none;
+  padding: 8px;
+  border-top: 1px solid var(--hairline);
+}
+.sidebar-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+}
+.sidebar-link:hover {
+  background: var(--hover);
+  color: var(--fg);
+}
+
+.statusbar {
+  flex: none;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+  font-size: 11.5px;
+  color: var(--muted);
+  border-top: 1px solid var(--hairline);
+  font-variant-numeric: tabular-nums;
+}
+.status-left,
+.status-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.status-path {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 50vw;
+}
+.status-warn {
+  color: var(--danger);
+}

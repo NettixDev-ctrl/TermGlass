@@ -1,0 +1,54 @@
+/* Colors are written to :root by hooks/appearance.ts from the active theme; these are only the pre-boot defaults. */
+:root {
+  --bg: #0b0b0d;
+  --surface: #151518;
+  --fg: #e8e8ea;
+  --muted: #8d8d96;
+  --border: rgba(255, 255, 255, 0.08);
+  --accent: #6aa4ff;
+  --on-accent: #101114;
+  --panel-solid: #121215;
+  --win-alpha: 1;
+  --glass-blur: 14px;
+
+  --font-ui: ui-sans-serif, system-ui, -apple-system, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', 'Noto Sans', Cantarell, Inter, Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --titlebar-h: 40px;
+  --radius-window: 12px;
+  --radius: 10px;
+  --radius-sm: 7px;
+
+  --dur: 180ms;
+  --dur-fast: 120ms;
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+
+  --hover: color-mix(in srgb, var(--fg) 8%, transparent);
+  --press: color-mix(in srgb, var(--fg) 13%, transparent);
+  --hairline: color-mix(in srgb, var(--fg) 9%, transparent);
+  --accent-soft: color-mix(in srgb, var(--accent) 22%, transparent);
+  --focus-ring: color-mix(in srgb, var(--accent) 70%, transparent);
+  --danger: #e5484d;
+}
+
+[data-motion='reduced'] {
+  --dur: 90ms;
+  --dur-fast: 70ms;
+}
+
+/* Animations off: nothing moves, nothing fades. */
+[data-motion='off'] *,
+[data-motion='off'] *::before,
+[data-motion='off'] *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+[data-motion='reduced'] .tab,
+[data-motion='reduced'] .palette,
+[data-motion='reduced'] .dialog,
+[data-motion='reduced'] .settings,
+[data-motion='reduced'] .menu,
+[data-motion='reduced'] .toast {
+  animation-name: fade-in !important;
+}

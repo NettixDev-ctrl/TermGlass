@@ -1,0 +1,43 @@
+appId: dev.termglass.app
+productName: TermGlass
+copyright: Copyright © TermGlass contributors
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**
+  - package.json
+asar: true
+# node-pty ships a native addon and (on macOS) a helper binary; both must live outside the asar archive.
+asarUnpack:
+  - node_modules/node-pty/**
+npmRebuild: true
+electronLanguages:
+  - en-US
+
+linux:
+  # Add `deb` here after setting `homepage` and an author email in package.json (electron-builder requires both).
+  target:
+    - AppImage
+    - tar.gz
+  category: System;TerminalEmulator
+  executableName: termglass
+  icon: build/icon.png
+  synopsis: Minimal glass-inspired terminal emulator
+  desktop:
+    entry:
+      Name: TermGlass
+      Comment: Minimal glass-inspired terminal emulator
+      Keywords: terminal;shell;console;command;
+      StartupWMClass: termglass
+
+win:
+  target:
+    - nsis
+    - portable
+  icon: build/icon.png
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false

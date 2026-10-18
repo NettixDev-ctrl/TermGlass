@@ -1,0 +1,17 @@
+{
+  "id": "paper",
+  "name": "Paper",
+  "type": "light",
+  "ui": { "accent": "#b4540a" },
+  "terminal": {
+    "background": "#f6f1e7",
+    "foreground": "#2b2620",
+    "cursor": "#b4540a",
+    "red": "#a8281f",
+    "green": "#2f6b2a",
+    "yellow": "#7a5400",
+    "blue": "#1f4e9c",
+    "magenta": "#7d3a8c",
+    "cyan": "#1b6a6a"
+  }
+}
