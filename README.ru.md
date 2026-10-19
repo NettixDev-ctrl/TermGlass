@@ -70,7 +70,7 @@
 | Файл | Для чего |
 | --- | --- |
 | `termglass-*.pkg.tar.zst` | Arch Linux / CachyOS: `sudo pacman -U termglass-*.pkg.tar.zst` |
-| `TermGlass-*-linux-x64.AppImage` | Любой Linux: `chmod +x` и запуск (автор его пока не запускал) |
+| `TermGlass-*-linux-x86_64.AppImage` | Любой Linux: `chmod +x` и запуск (автор его пока не запускал) |
 | `TermGlass-*-linux-x64.tar.gz` | Любой Linux, распакованная сборка |
 | `TermGlass-Setup-*.exe`, `TermGlass-*-portable.exe` | Windows (**не проверено**) |
 

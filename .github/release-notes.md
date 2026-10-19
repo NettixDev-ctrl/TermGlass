@@ -9,7 +9,7 @@ A minimal, glass-inspired terminal emulator: real shells, split panes, command p
 | File | For |
 | --- | --- |
 | `termglass-*.pkg.tar.zst` | Arch Linux / CachyOS: `sudo pacman -U termglass-*.pkg.tar.zst` |
-| `TermGlass-*-linux-x64.AppImage` | Any Linux (`chmod +x` and run) |
+| `TermGlass-*-linux-x86_64.AppImage` | Any Linux (`chmod +x` and run) |
 | `TermGlass-*-linux-x64.tar.gz` | Any Linux, unpacked |
 | `TermGlass-Setup-*.exe`, `TermGlass-*-portable.exe` | Windows (**untested**) |
 | `SHA256SUMS.txt` | Checksums of every file above |

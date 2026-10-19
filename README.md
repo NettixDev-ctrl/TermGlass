@@ -70,7 +70,7 @@ TermGlass targets **Linux first (Arch, CachyOS, KDE Plasma, Wayland)**, then Win
 | File | For |
 | --- | --- |
 | `termglass-*.pkg.tar.zst` | Arch Linux / CachyOS: `sudo pacman -U termglass-*.pkg.tar.zst` |
-| `TermGlass-*-linux-x64.AppImage` | Any Linux: `chmod +x` it and run (not launched by the author yet) |
+| `TermGlass-*-linux-x86_64.AppImage` | Any Linux: `chmod +x` it and run (not launched by the author yet) |
 | `TermGlass-*-linux-x64.tar.gz` | Any Linux, unpacked |
 | `TermGlass-Setup-*.exe`, `TermGlass-*-portable.exe` | Windows (**untested**) |
 
