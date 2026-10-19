@@ -1,7 +1,8 @@
 # Maintainer: TermGlass contributors
 # Packages the already-built app (run `npx electron-builder --linux dir` first, see packaging/arch/build.sh).
 pkgname=termglass
-pkgver=0.1.0
+# Always matches package.json, so a tagged release builds the matching package.
+pkgver=$(node -p "require('$startdir/../../package.json').version")
 pkgrel=5
 pkgdesc='Minimal, glass-inspired terminal emulator (Electron, xterm.js, node-pty)'
 arch=('x86_64')

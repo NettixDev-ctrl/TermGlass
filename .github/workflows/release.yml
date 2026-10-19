@@ -1,0 +1,94 @@
+name: Release
+
+# Pushing a tag such as v0.1.0 builds the packages and publishes them as a GitHub Release.
+# "Run workflow" (workflow_dispatch) builds everything without publishing.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  linux:
+    name: Linux (AppImage, tar.gz)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npm run build
+      - run: npx electron-builder --linux --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: |
+            release/*.AppImage
+            release/*.tar.gz
+          if-no-files-found: error
+
+  arch:
+    name: Arch Linux package
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - run: pacman -Syu --noconfirm nodejs npm git python
+      - uses: actions/checkout@v4
+      - name: Build as an unprivileged user (makepkg refuses to run as root)
+        run: |
+          useradd -m builder
+          chown -R builder "$GITHUB_WORKSPACE"
+          su builder -c "cd '$GITHUB_WORKSPACE' && git config --global --add safe.directory '$GITHUB_WORKSPACE' && npm ci && packaging/arch/build.sh"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arch
+          path: packaging/arch/*.pkg.tar.zst
+          if-no-files-found: error
+
+  windows:
+    name: Windows (installer, portable) - untested
+    runs-on: windows-latest
+    # Nobody has run these builds on a real Windows machine yet, so a failure here must not block the Linux release.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx electron-builder --win --publish never
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: release/*.exe
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: [linux, arch, windows]
+    # Publish as long as the Linux build succeeded; Windows and Arch are best effort.
+    if: ${{ always() && needs.linux.result == 'success' && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
+          merge-multiple: true
+      - name: Checksums
+        run: |
+          cd assets
+          sha256sum * > SHA256SUMS.txt
+          ls -la
+      - uses: softprops/action-gh-release@v2
+        with:
+          name: TermGlass ${{ github.ref_name }}
+          body_path: .github/release-notes.md
+          files: assets/*

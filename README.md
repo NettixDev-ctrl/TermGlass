@@ -65,7 +65,16 @@ TermGlass targets **Linux first (Arch, CachyOS, KDE Plasma, Wayland)**, then Win
 
 ## Install
 
-There are no prebuilt releases yet. Build from source:
+**Prebuilt packages** are on the [Releases page](https://github.com/NettixDev-ctrl/TermGlass/releases), built by GitHub Actions from tagged commits:
+
+| File | For |
+| --- | --- |
+| `termglass-*.pkg.tar.zst` | Arch Linux / CachyOS: `sudo pacman -U termglass-*.pkg.tar.zst` |
+| `TermGlass-*-linux-x64.AppImage` | Any Linux: `chmod +x` it and run (not launched by the author yet) |
+| `TermGlass-*-linux-x64.tar.gz` | Any Linux, unpacked |
+| `TermGlass-Setup-*.exe`, `TermGlass-*-portable.exe` | Windows (**untested**) |
+
+Every release includes `SHA256SUMS.txt`. **To build from source instead:**
 
 ```bash
 git clone https://github.com/NettixDev-ctrl/TermGlass.git

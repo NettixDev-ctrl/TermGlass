@@ -16,6 +16,7 @@ electronLanguages:
   - en-US
 
 linux:
+  artifactName: TermGlass-${version}-linux-${arch}.${ext}
   # Add `deb` here after setting `homepage` and an author email in package.json (electron-builder requires both).
   target:
     - AppImage
@@ -38,6 +39,10 @@ win:
   icon: build/icon.png
 
 nsis:
+  artifactName: TermGlass-Setup-${version}.${ext}
   oneClick: false
   allowToChangeInstallationDirectory: true
   perMachine: false
+
+portable:
+  artifactName: TermGlass-${version}-portable.${ext}
